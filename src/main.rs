@@ -55,7 +55,9 @@ async fn handle(req: Request<hyper::body::Incoming>) -> Result<Response<Full<Byt
                     span.set_status(Status::Ok);
                     Ok(Response::builder()
                         .status(400)
-                        .body(Full::new(Bytes::from("Bad Request: name parameter required")))
+                        .body(Full::new(Bytes::from(
+                            "Bad Request: name parameter required",
+                        )))
                         .unwrap())
                 } else {
                     api_handler(name).await
@@ -76,18 +78,18 @@ async fn handle(req: Request<hyper::body::Incoming>) -> Result<Response<Full<Byt
                 if name.is_empty() {
                     Ok(Response::builder()
                         .status(400)
-                        .body(Full::new(Bytes::from("Bad Request: name parameter required")))
+                        .body(Full::new(Bytes::from(
+                            "Bad Request: name parameter required",
+                        )))
                         .unwrap())
                 } else {
                     api_handler(name).await
                 }
             }
-            _ => {
-                Ok(Response::builder()
-                    .status(404)
-                    .body(Full::new(Bytes::from("Not Found")))
-                    .unwrap())
-            }
+            _ => Ok(Response::builder()
+                .status(404)
+                .body(Full::new(Bytes::from("Not Found")))
+                .unwrap()),
         }
     }
 }
